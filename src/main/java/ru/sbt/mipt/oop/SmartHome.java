@@ -21,4 +21,10 @@ public class SmartHome {
     public Collection<Room> getRooms() {
         return rooms;
     }
+
+    public void perform(SensorEvent event) {
+        for (Room room : rooms) {
+            room.perform(event);
+        }
+    }
 }

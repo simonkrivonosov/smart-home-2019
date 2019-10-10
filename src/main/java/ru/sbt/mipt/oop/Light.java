@@ -1,6 +1,9 @@
 package ru.sbt.mipt.oop;
 
-public class Light {
+import static ru.sbt.mipt.oop.SensorEventType.LIGHT_OFF;
+import static ru.sbt.mipt.oop.SensorEventType.LIGHT_ON;
+
+public class Light implements HomeEntity{
     private boolean isOn;
     private final String id;
 
@@ -19,5 +22,20 @@ public class Light {
 
     public void setOn(boolean on) {
         isOn = on;
+    }
+
+    @Override
+    public void perform(SensorEvent event) {
+        if (this.id.equals(event.getObjectId())) {
+            if (event.getType() == LIGHT_ON) {
+                this.setOn(true);
+                System.out.println("Light " + this.getId() +  " was turned on.");
+            }
+            if (event.getType() == LIGHT_OFF){
+                this.setOn(false);
+                System.out.println("Light " + this.getId() +  " was turned off.");
+            }
+        }
+
     }
 }

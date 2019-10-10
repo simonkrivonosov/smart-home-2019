@@ -24,4 +24,14 @@ public class Room {
     public String getName() {
         return name;
     }
+
+    public void perform(SensorEvent event) {
+        for (Door door : doors) {
+            door.perform(event);
+        }
+
+        for (Light light : lights) {
+            light.perform(event);
+        }
+    }
 }
