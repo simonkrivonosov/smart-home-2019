@@ -7,6 +7,7 @@ public class SmartHomeEventObserver {
         while (event != null) {
             System.out.println("Got event: " + event);
             smartHome.perform(event);
+            //smartHome.eventPerformer.perform();
             event = randomSensorEventProvider.getNextSensorEvent();
         }
     }

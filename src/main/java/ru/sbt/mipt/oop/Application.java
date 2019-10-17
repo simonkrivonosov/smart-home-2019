@@ -18,8 +18,8 @@ public class Application {
     }
 
 
-    public static void main(String... args) throws IOException {
 
+    public static void main(String... args) throws IOException {
 
         SmartHome smartHome = smartHomeLoader.loadSmartHome("smart-home-1.js");
         SmartHomeEventObserver.observe(smartHome);

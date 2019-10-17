@@ -19,7 +19,8 @@ public class Door implements HomeEntity{
     public void setOpen(boolean open) {
         isOpen = open;
     }
-
+    //for (Eventhandler eh: eventhandlers):
+        //eh.handle(event);
     @Override
     public void perform(SensorEvent event) {
         if (this.id.equals(event.getObjectId())) {

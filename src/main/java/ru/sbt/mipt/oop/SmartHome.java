@@ -22,6 +22,9 @@ public class SmartHome {
         return rooms;
     }
 
+    //еще один event handler для проблесы с холлом и они все обрабатыают и ищут ошибки
+    //for (Eventhandler eh: eventhandlers):
+    //eh.handle(event);
     public void perform(SensorEvent event) {
         for (Room room : rooms) {
             room.perform(event);
