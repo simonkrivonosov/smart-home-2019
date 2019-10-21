@@ -1,6 +1,6 @@
 package ru.sbt.mipt.oop;
 
-public class ConcreteCommandSender implements CommandSender {
+public class TextCommandSender implements CommandSender {
 
     @Override
     public void sendCommand(SensorCommand command) {

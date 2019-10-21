@@ -1,28 +1,28 @@
 package ru.sbt.mipt.oop;
 
-import com.google.gson.Gson;
-
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import static ru.sbt.mipt.oop.SensorEventType.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class Application {
 
-    private static SmartHomeLoader smartHomeLoader = new JsonSmartHomeLoader();
-    private static CommandSender commandSender = new ConcreteCommandSender();
-    public static void setSmartHomeLoader(SmartHomeLoader smartHomeLoader, CommandSender commandSender) {
-        Application.smartHomeLoader = smartHomeLoader;
-        Application.commandSender = commandSender;
+    public static void main(String... args) throws IOException {
+        SmartHomeReader smartHomeReader = new JsonSmartHomeReader("smart-home-1.js");
+        EventGenerator eventGenerator = new RandomEventGenerator();
+        CommandSender commandSender = new TextCommandSender();
+        SmartHome smartHome = smartHomeReader.loadSmartHome();
+        Collection<EventProcessor> eventProcessors = createEventProcessors();
+        SmartHomeEventObserver smartHomeEventObserver = new SmartHomeEventObserver(smartHome, eventGenerator, eventProcessors);
+        smartHomeEventObserver.observe();
     }
 
 
-
-    public static void main(String... args) throws IOException {
-
-        SmartHome smartHome = smartHomeLoader.loadSmartHome("smart-home-1.js");
-        SmartHomeEventObserver.observe(smartHome);
+    private static Collection<EventProcessor> createEventProcessors() {
+        Collection<EventProcessor> eventProcessors = new ArrayList<>();
+        eventProcessors.add(new LightEventProcessor());
+        eventProcessors.add(new DoorEventProcessor());
+        eventProcessors.add(new HallDoorEventProcessor());
+        return eventProcessors;
     }
 }
 

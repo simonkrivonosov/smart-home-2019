@@ -2,7 +2,7 @@ package ru.sbt.mipt.oop;
 
 import java.util.Collection;
 
-public class Room {
+public class Room implements Actionable{
     private Collection<Light> lights;
     private Collection<Door> doors;
     private String name;
@@ -25,13 +25,9 @@ public class Room {
         return name;
     }
 
-    public void perform(SensorEvent event) {
-        for (Door door : doors) {
-            door.perform(event);
-        }
+    @Override
+    public void execute(Action action) {
 
-        for (Light light : lights) {
-            light.perform(event);
-        }
+        action.run(this);
     }
 }

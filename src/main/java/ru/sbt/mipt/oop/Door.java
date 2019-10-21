@@ -3,7 +3,7 @@ package ru.sbt.mipt.oop;
 import static ru.sbt.mipt.oop.SensorEventType.DOOR_CLOSED;
 import static ru.sbt.mipt.oop.SensorEventType.DOOR_OPEN;
 
-public class Door implements HomeEntity{
+public class Door implements Actionable{
     private final String id;
     private boolean isOpen;
 
@@ -19,19 +19,9 @@ public class Door implements HomeEntity{
     public void setOpen(boolean open) {
         isOpen = open;
     }
-    //for (Eventhandler eh: eventhandlers):
-        //eh.handle(event);
+
     @Override
-    public void perform(SensorEvent event) {
-        if (this.id.equals(event.getObjectId())) {
-            if (event.getType() == DOOR_OPEN) {
-                this.setOpen(true);
-                System.out.println("Door " + this.getId() +  " was opened.");
-            }
-            if (event.getType() == DOOR_CLOSED){
-                this.setOpen(false);
-                System.out.println("Door " + this.getId() +  " was closed.");
-            }
-        }
+    public void execute(Action action) {
+        action.run(this);
     }
 }
