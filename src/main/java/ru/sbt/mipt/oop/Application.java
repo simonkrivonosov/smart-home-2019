@@ -19,9 +19,10 @@ public class Application {
 
     private static Collection<EventProcessor> createEventProcessors() {
         Collection<EventProcessor> eventProcessors = new ArrayList<>();
-        eventProcessors.add(new LightEventProcessor());
-        eventProcessors.add(new DoorEventProcessor());
-        eventProcessors.add(new HallDoorEventProcessor());
+        eventProcessors.add(new EventProcessorDecorator(new LightEventProcessor()));
+        eventProcessors.add(new EventProcessorDecorator(new DoorEventProcessor()));
+        eventProcessors.add(new EventProcessorDecorator(new HallDoorEventProcessor()));
+        eventProcessors.add(new AlarmEventProcessor());
         return eventProcessors;
     }
 }
