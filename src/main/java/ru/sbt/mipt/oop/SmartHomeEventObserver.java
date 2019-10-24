@@ -5,7 +5,6 @@ import java.util.Collection;
 public class SmartHomeEventObserver {
 
     private SmartHome smarthome;
-    private EventProcessor eventProcessor;
     private EventGenerator eventGenerator;
     private Collection<EventProcessor> eventProcessors;
 
@@ -18,8 +17,8 @@ public class SmartHomeEventObserver {
     public void observe() {
         SensorEvent event = eventGenerator.getNextSensorEvent();
         while (event != null) {
+            processEvent(event);
             event = eventGenerator.getNextSensorEvent();
-
         }
     }
     public void processEvent(SensorEvent sensorEvent) {

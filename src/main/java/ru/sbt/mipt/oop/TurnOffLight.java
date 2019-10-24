@@ -31,8 +31,7 @@ public class TurnOffLight implements Action {
             String cur_id = ((Light) object).getId();
             if (light_id.equals(cur_id) || light_id.equals("all")) {
                 ((Light) object).setOn(false);
-                System.out
-                        .println("Light " + cur_id + " in room " + room_name + " was turned off.");
+                System.out.println("Light " + cur_id + " in room " + room_name + " was turned off.");
             }
         } else if (object instanceof Room && room_name.equals("none")) {
             InspectRoom((Room) object);
