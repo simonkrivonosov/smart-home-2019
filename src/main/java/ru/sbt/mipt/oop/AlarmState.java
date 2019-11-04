@@ -8,12 +8,12 @@ public class AlarmState extends State {
         super(alarm);
     }
     @Override
-    public void Activate(String combination) {
+    public void activate(String combination) {
 
     }
 
     @Override
-    public void Deactivate(String combination) {
+    public void deactivate(String combination) {
 
     }
 

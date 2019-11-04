@@ -9,6 +9,6 @@ public abstract class State {
         this.alarm = init_alarm;
     }
 
-    public abstract void Activate(String combination);
-    public abstract void Deactivate(String combination);
+    public abstract void activate(String combination);
+    public abstract void deactivate(String combination);
 }

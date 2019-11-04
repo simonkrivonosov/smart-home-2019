@@ -7,7 +7,7 @@ public class ActiveState extends State {
     }
 
     @Override
-    public void Deactivate(String combination) {
+    public void deactivate(String combination) {
         if(alarm.CheckCode(combination)) {
             alarm.deactivate();
         } else {
@@ -16,7 +16,7 @@ public class ActiveState extends State {
     }
 
     @Override
-    public void Activate(String combination) {
+    public void activate(String combination) {
 
     }
 }

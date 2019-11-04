@@ -18,7 +18,7 @@ public class Application {
 
 
     private static Collection<EventProcessor> createEventProcessors() {
-        Collection<EventProcessor> eventProcessors = new ArrayList<>();
+        ArrayList<EventProcessor> eventProcessors = new ArrayList<>();
         eventProcessors.add(new EventProcessorDecorator(new LightEventProcessor()));
         eventProcessors.add(new EventProcessorDecorator(new DoorEventProcessor()));
         eventProcessors.add(new EventProcessorDecorator(new HallDoorEventProcessor()));

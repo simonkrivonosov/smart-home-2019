@@ -15,7 +15,7 @@ public class AlarmEventTest {
         SmartHomeReader reader = new JsonSmartHomeReader("smart-home-1.js");
         Alarm init_alarm = new Alarm("1234");
         SmartHome smarthome = reader.loadSmartHome();
-        smarthome.set_alarm(init_alarm);
+        smarthome.setAlarm(init_alarm);
         return smarthome;
     }
 

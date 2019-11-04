@@ -26,7 +26,7 @@ public class SmartHome {
         return rooms;
     }
 
-    public void set_alarm(Alarm alarm) {this.alarm = alarm;}
+    public void setAlarm(Alarm alarm) {this.alarm = alarm;}
 
     public Alarm getAlarm() {return alarm;}
 

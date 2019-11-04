@@ -4,7 +4,7 @@ package ru.sbt.mipt.oop;
 public class Alarm {
     private String code;
     private State state;
-    boolean is_active;
+    boolean isActive;
 
 
     public boolean CheckCode(String combination) {
@@ -14,13 +14,13 @@ public class Alarm {
     public Alarm() {
         code = "0000";
         state = new DeActiveState(this);
-        is_active = false;
+        isActive = false;
     }
 
-    public Alarm(String initial_code) {
-        code = initial_code;
+    public Alarm(String initialCode) {
+        code = initialCode;
         state = new DeActiveState(this);
-        is_active = false;
+        isActive = false;
     }
 
     public State getState() {
@@ -29,17 +29,17 @@ public class Alarm {
 
     public void activate() {
         state = new ActiveState(this);
-        is_active = true;
+        isActive = true;
     }
 
     public void deactivate() {
         state = new DeActiveState(this);
-        is_active = false;
+        isActive = false;
     }
 
     public void alarm() {
         state = new AlarmState(this);
-        is_active = true;
+        isActive = true;
     }
 
 }
