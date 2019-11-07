@@ -10,6 +10,7 @@ import ru.sbt.mipt.oop.TurnOffLight;
 import ru.sbt.mipt.oop.TurnOnLight;
 
 public class LightEventProcessor implements EventProcessor{
+    @Override
     public void processEvent(SmartHome smartHome, SensorEvent event) {
         if(event.getType() == LIGHT_ON) {
             Action action = new TurnOnLight(event.getObjectId());

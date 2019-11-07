@@ -10,7 +10,7 @@ import ru.sbt.mipt.oop.CloseDoor;
 import ru.sbt.mipt.oop.OpenDoor;
 
 public class DoorEventProcessor implements EventProcessor {
-
+    @Override
     public void processEvent(SmartHome smartHome, SensorEvent event) {
         if(event.getType() == DOOR_OPEN) {
             Action action = new OpenDoor(event.getObjectId());
