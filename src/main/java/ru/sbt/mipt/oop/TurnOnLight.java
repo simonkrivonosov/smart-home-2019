@@ -9,8 +9,6 @@ public class TurnOnLight implements Action {
         this.roomName = "none";
     }
 
-    public String getRoom() {return roomName;}
-
     public void inspectRoom(Room room) {
         if (lightId.equals("all")) {
             roomName = room.getName();

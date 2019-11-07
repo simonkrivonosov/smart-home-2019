@@ -5,8 +5,8 @@ import ru.sbt.mipt.oop.Alarm;
 public abstract class State {
     Alarm alarm;
 
-    State(Alarm init_alarm) {
-        this.alarm = init_alarm;
+    State(Alarm initAlarm) {
+        this.alarm = initAlarm;
     }
 
     public abstract void activate(String combination);

@@ -9,8 +9,6 @@ public class CloseDoor implements Action {
         this.roomName = "none";
     }
 
-    public String getRoom() {return roomName;}
-
     public void inspectRoom(Room room) {
         if (doorId.equals("all")) {
             roomName = room.getName();
