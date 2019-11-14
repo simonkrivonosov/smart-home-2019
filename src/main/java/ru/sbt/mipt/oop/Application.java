@@ -1,12 +1,11 @@
 package ru.sbt.mipt.oop;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class Application {
 
-    public static void main(String... args) throws IOException {
+    public static void main(String... args) {
         SmartHomeReader smartHomeReader = new JsonSmartHomeReader("smart-home-1.js");
         EventGenerator eventGenerator = new RandomEventGenerator();
         CommandSender commandSender = new TextCommandSender();
