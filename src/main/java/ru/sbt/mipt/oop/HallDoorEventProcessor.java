@@ -22,7 +22,7 @@ public class HallDoorEventProcessor implements EventProcessor {
                             if (object1 instanceof Door) {
                                 Door door = (Door) object1;
                                 if (door.getId().equals(event.getObjectId())) {
-                                    Action hallAction = new TurnOffLight("all");
+                                    Action hallAction = new TurnOffLight("all", room.getName());
                                     smartHome.execute(hallAction);
                                 }
                             }
