@@ -2,44 +2,41 @@ package ru.sbt.mipt.oop;
 
 
 public class Alarm {
+
     private String code;
-    private State state;
-    boolean is_active;
+    private AlarmState alarmState;
 
 
-    public boolean CheckCode(String combination) {
+    public boolean checkCode(String combination) {
         return code.equals(combination);
     }
 
     public Alarm() {
-        code = "0000";
-        state = new DeActiveState(this);
-        is_active = false;
+        this.alarmState = new DeActiveAlarmState(this);
     }
 
-    public Alarm(String initial_code) {
-        code = initial_code;
-        state = new DeActiveState(this);
-        is_active = false;
+
+    public void setAlarmCode(String initialCode) {
+        this.code = initialCode;
     }
 
-    public State getState() {
-        return state;
+    public AlarmState getAlarmState() {
+        return alarmState;
+    }
+    public void setAlarmState(AlarmState alarmState) {
+        this.alarmState = alarmState;
     }
 
-    public void activate() {
-        state = new ActiveState(this);
-        is_active = true;
+    public void activate(String combination) {
+        this.alarmState.activate(combination);
     }
 
-    public void deactivate() {
-        state = new DeActiveState(this);
-        is_active = false;
+    public void deactivate(String combination) {
+        this.alarmState.deactivate(combination);
     }
 
-    public void alarm() {
-        state = new AlarmState(this);
-        is_active = true;
+    public void setDangerMode() {
+        this.alarmState.setDangerMode();
     }
 
 }

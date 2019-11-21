@@ -9,24 +9,21 @@ public class SmartHome {
 
     public SmartHome() {
         rooms = new ArrayList<>();
-        alarm = new Alarm();
+        //alarm = new Alarm();
     }
 
     public SmartHome(Collection<Room> rooms) {
         this.rooms = rooms;
-        alarm = new Alarm();
-    }
-
-    public void addRoom(Room room, String alarmCode) {
-        rooms.add(room);
-        this.alarm = new Alarm(alarmCode);
+        //alarm = new Alarm();
     }
 
     public Collection<Room> getRooms() {
         return rooms;
     }
 
-    public void set_alarm(Alarm alarm) {this.alarm = alarm;}
+    public void setAlarm(Alarm alarm) {
+        this.alarm = alarm;
+    }
 
     public Alarm getAlarm() {return alarm;}
 

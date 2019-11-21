@@ -10,6 +10,7 @@ public class Application {
         EventGenerator eventGenerator = new RandomEventGenerator();
         CommandSender commandSender = new TextCommandSender();
         SmartHome smartHome = smartHomeReader.loadSmartHome();
+        smartHome.setAlarm(new Alarm());
         Collection<EventProcessor> eventProcessors = createEventProcessors();
         SmartHomeEventObserver smartHomeEventObserver = new SmartHomeEventObserver(smartHome, eventGenerator, eventProcessors);
         smartHomeEventObserver.observe();

@@ -11,46 +11,47 @@ import org.junit.Test;
 
 public class AlarmEventTest {
 
-    SmartHome GetTestHome() throws IOException {
+    SmartHome getTestHome() throws IOException {
         SmartHomeReader reader = new JsonSmartHomeReader("smart-home-1.js");
-        Alarm init_alarm = new Alarm("1234");
+        Alarm initAlarm = new Alarm();
+        initAlarm.activate("1234");
         SmartHome smarthome = reader.loadSmartHome();
-        smarthome.set_alarm(init_alarm);
+        smarthome.setAlarm(initAlarm);
         return smarthome;
     }
 
     @Test
-    public void SuccessfulAlarmDeactivate() throws IOException {
+    public void successfulAlarmDeactivate() throws IOException {
 
-        SmartHome smarthome = GetTestHome();
+        SmartHome smarthome = getTestHome();
 
         AlarmEventProcessor processor = new AlarmEventProcessor();
 
-        SensorEvent test_activate = new SensorAlarmEvent(ALARM_ACTIVATE, "1234");
-        SensorEvent test_deactivate = new SensorAlarmEvent(ALARM_DEACTIVATE, "1234");
+        SensorEvent testActivate = new SensorAlarmEvent(ALARM_ACTIVATE, "1234");
+        SensorEvent testDeactivate = new SensorAlarmEvent(ALARM_DEACTIVATE, "1234");
 
-        processor.processEvent(smarthome, test_activate);
-        Assert.assertTrue(smarthome.getAlarm().getState() instanceof ActiveState);
+        processor.processEvent(smarthome, testActivate);
+        Assert.assertTrue(smarthome.getAlarm().getAlarmState() instanceof ActiveAlarmState);
 
-        processor.processEvent(smarthome, test_deactivate);
-        Assert.assertTrue(smarthome.getAlarm().getState() instanceof DeActiveState);
+        processor.processEvent(smarthome, testDeactivate);
+        Assert.assertTrue(smarthome.getAlarm().getAlarmState() instanceof DeActiveAlarmState);
     }
 
     @Test
-    public void AlarmSituation() throws IOException {
+    public void alarmSituation() throws IOException {
 
-        SmartHome smarthome = GetTestHome();
+        SmartHome smarthome = getTestHome();
         EventProcessorDecorator processor = new EventProcessorDecorator(new AlarmEventProcessor());
 
-        SensorEvent test_activate = new SensorAlarmEvent(ALARM_ACTIVATE, "1234");
-        SensorEvent test_deactivate = new SensorAlarmEvent(ALARM_DEACTIVATE, "1233");
+        SensorEvent testActivate = new SensorAlarmEvent(ALARM_ACTIVATE, "1234");
+        SensorEvent testDeactivate = new SensorAlarmEvent(ALARM_DEACTIVATE, "1233");
 
-        SensorEvent break_event =  new SensorEvent(DOOR_OPEN, "1");
-        processor.processEvent(smarthome, test_activate);
-        processor.processEvent(smarthome, test_deactivate);
-        Assert.assertTrue(smarthome.getAlarm().getState() instanceof AlarmState);
+        SensorEvent breakEvent =  new SensorEvent(DOOR_OPEN, "1");
+        processor.processEvent(smarthome, testActivate);
+        processor.processEvent(smarthome, testDeactivate);
+        Assert.assertTrue(smarthome.getAlarm().getAlarmState() instanceof DangerAlarmState);
 
-        processor.processEvent(smarthome, break_event);
+        processor.processEvent(smarthome, breakEvent);
         for (Room room: smarthome.getRooms()) {
             if (room.getName().equals("kitchen")) {
                 for (Door door: room.getDoors()) {
