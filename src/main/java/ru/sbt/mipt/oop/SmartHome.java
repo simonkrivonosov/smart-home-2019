@@ -32,6 +32,7 @@ public class SmartHome {
 
 
     public void execute(Action action) {
+        action.run(this);
         for (Room room : rooms) {
             room.execute(action);
         }

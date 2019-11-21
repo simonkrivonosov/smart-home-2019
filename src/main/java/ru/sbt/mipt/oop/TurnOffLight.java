@@ -1,41 +1,22 @@
 package ru.sbt.mipt.oop;
 
-import ru.sbt.mipt.oop.Light;
-import ru.sbt.mipt.oop.Room;
-
 public class TurnOffLight implements Action {
-    String light_id;
-    String room_name;
 
-    public TurnOffLight(String object_id) {
-        light_id = object_id;
-        room_name = "none";
+    private  String lightId;
+    private  String roomName;
+
+
+    public TurnOffLight(String lightId, String roomName) {
+        this.lightId = lightId;
+        this.roomName = roomName;
     }
 
-    public String GetRoom() {return room_name;}
-
-    public void InspectRoom (Room room) {
-        if (light_id.equals("all")) {
-            room_name = room.getName();
-        } else {
-            for (Light light : room.getLights()) {
-                if (light.getId().equals(light_id)) {
-                    room_name = room.getName();
-                }
-            }
-        }
-    }
-
+    @Override
     public void run(Object object) {
-        if(object instanceof Light) {
-            String cur_id = ((Light) object).getId();
-            if (light_id.equals(cur_id) || light_id.equals("all")) {
-                ((Light) object).setOn(false);
-                System.out.println("Light " + cur_id + " in room " + room_name + " was turned off.");
-            }
-        } else if (object instanceof Room && room_name.equals("none")) {
-            InspectRoom((Room) object);
+        String curId = ((Light) object).getId();
+        if (lightId.equals(curId) || lightId.equals("all")) {
+            ((Light) object).setOn(false);
+            System.out.println("Light " + curId + " in room " + roomName + " was turned off.");
         }
     }
-
 }
