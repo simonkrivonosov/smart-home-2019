@@ -1,58 +1,85 @@
 package ru.sbt.mipt.oop;
 
+import static junit.framework.Assert.assertTrue;
 import static ru.sbt.mipt.oop.SensorEventType.ALARM_ACTIVATE;
 import static ru.sbt.mipt.oop.SensorEventType.ALARM_DEACTIVATE;
 import static ru.sbt.mipt.oop.SensorEventType.DOOR_OPEN;
 
-import java.io.IOException;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 
 public class AlarmEventTest {
+    private SmartHome smartHome;
 
-    SmartHome getTestHome() throws IOException {
+    @Before
+    public void setUp() {
         SmartHomeReader reader = new JsonSmartHomeReader("smart-home-1.js");
         Alarm initAlarm = new Alarm();
-        initAlarm.activate("1234");
-        SmartHome smarthome = reader.loadSmartHome();
-        smarthome.setAlarm(initAlarm);
-        return smarthome;
+        this.smartHome = reader.loadSmartHome();
+        this.smartHome.setAlarm(initAlarm);
     }
 
     @Test
-    public void successfulAlarmDeactivate() throws IOException {
+    public void testSuccessfulDeactivation() {
+        Alarm alarm = this.smartHome.getAlarm();
+        alarm.activate("123");
+        alarm.deactivate("123");
+        assertTrue(alarm.getAlarmState() instanceof DeActiveAlarmState);
+    }
+    @Test
+    public void testBadDeactivation() {
+        Alarm alarm = this.smartHome.getAlarm();
+        alarm.activate("123");
+        alarm.deactivate("000");
+        assertTrue(alarm.getAlarmState() instanceof DangerAlarmState);
+    }
+    @Test
+    public void testDangerAlarmActivationFromActivated() {
+        Alarm alarm = this.smartHome.getAlarm();
+        alarm.activate("123");
+        alarm.setDangerMode();
+        assertTrue(alarm.getAlarmState() instanceof DangerAlarmState);
+    }
+    @Test
+    public void testDangerAlarmSuccessfulDeactivation() {
+        Alarm alarm = this.smartHome.getAlarm();
+        alarm.activate("123");
+        alarm.setDangerMode();
+        alarm.deactivate("123");
+        assertTrue(alarm.getAlarmState() instanceof DeActiveAlarmState);
+    }
 
-        SmartHome smarthome = getTestHome();
+    @Test
+    public void successfulAlarmDeactivate() {
 
         AlarmEventProcessor processor = new AlarmEventProcessor();
 
         SensorEvent testActivate = new SensorAlarmEvent(ALARM_ACTIVATE, "1234");
         SensorEvent testDeactivate = new SensorAlarmEvent(ALARM_DEACTIVATE, "1234");
 
-        processor.processEvent(smarthome, testActivate);
-        Assert.assertTrue(smarthome.getAlarm().getAlarmState() instanceof ActiveAlarmState);
+        processor.processEvent(this.smartHome, testActivate);
+        Assert.assertTrue(this.smartHome.getAlarm().getAlarmState() instanceof ActiveAlarmState);
 
-        processor.processEvent(smarthome, testDeactivate);
-        Assert.assertTrue(smarthome.getAlarm().getAlarmState() instanceof DeActiveAlarmState);
+        processor.processEvent(this.smartHome, testDeactivate);
+        Assert.assertTrue(this.smartHome.getAlarm().getAlarmState() instanceof DeActiveAlarmState);
     }
 
     @Test
-    public void alarmSituation() throws IOException {
-
-        SmartHome smarthome = getTestHome();
+    public void alarmSituation() {
         EventProcessorDecorator processor = new EventProcessorDecorator(new AlarmEventProcessor());
 
         SensorEvent testActivate = new SensorAlarmEvent(ALARM_ACTIVATE, "1234");
         SensorEvent testDeactivate = new SensorAlarmEvent(ALARM_DEACTIVATE, "1233");
 
         SensorEvent breakEvent =  new SensorEvent(DOOR_OPEN, "1");
-        processor.processEvent(smarthome, testActivate);
-        processor.processEvent(smarthome, testDeactivate);
-        Assert.assertTrue(smarthome.getAlarm().getAlarmState() instanceof DangerAlarmState);
+        processor.processEvent(this.smartHome, testActivate);
+        processor.processEvent(this.smartHome, testDeactivate);
+        Assert.assertTrue(this.smartHome.getAlarm().getAlarmState() instanceof DangerAlarmState);
 
-        processor.processEvent(smarthome, breakEvent);
-        for (Room room: smarthome.getRooms()) {
+        processor.processEvent(this.smartHome, breakEvent);
+        for (Room room: this.smartHome.getRooms()) {
             if (room.getName().equals("kitchen")) {
                 for (Door door: room.getDoors()) {
                     if (door.getId().equals("1")) {

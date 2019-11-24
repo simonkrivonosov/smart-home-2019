@@ -6,11 +6,11 @@ public class SmartHomeEventObserver {
 
     private SmartHome smarthome;
     private EventGenerator eventGenerator;
-    private Collection<EventProcessor> eventProcessors;
+    private EventProcessor eventProcessor;
 
-    public SmartHomeEventObserver(SmartHome smarthome, EventGenerator eventGenerator, Collection<EventProcessor> eventProcessors ) {
+    public SmartHomeEventObserver(SmartHome smarthome, EventGenerator eventGenerator, EventProcessor eventProcessor) {
         this.smarthome = smarthome;
-        this.eventProcessors = eventProcessors;
+        this.eventProcessor = eventProcessor;
         this.eventGenerator = eventGenerator;
     }
 
@@ -23,8 +23,6 @@ public class SmartHomeEventObserver {
     }
     public void processEvent(SensorEvent sensorEvent) {
         System.out.println("Got event: " + sensorEvent);
-        for (EventProcessor eventProcessor : eventProcessors) {
-            eventProcessor.processEvent(smarthome, sensorEvent);
-        }
+        eventProcessor.processEvent(smarthome, sensorEvent);
     }
 }

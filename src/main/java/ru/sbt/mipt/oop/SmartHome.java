@@ -9,12 +9,10 @@ public class SmartHome {
 
     public SmartHome() {
         rooms = new ArrayList<>();
-        //alarm = new Alarm();
     }
 
     public SmartHome(Collection<Room> rooms) {
         this.rooms = rooms;
-        //alarm = new Alarm();
     }
 
     public Collection<Room> getRooms() {
@@ -25,7 +23,9 @@ public class SmartHome {
         this.alarm = alarm;
     }
 
-    public Alarm getAlarm() {return alarm;}
+    public Alarm getAlarm() {
+        return alarm;
+    }
 
 
     public void execute(Action action) {

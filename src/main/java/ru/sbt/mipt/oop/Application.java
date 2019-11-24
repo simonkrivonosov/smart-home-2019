@@ -11,17 +11,17 @@ public class Application {
         CommandSender commandSender = new TextCommandSender();
         SmartHome smartHome = smartHomeReader.loadSmartHome();
         smartHome.setAlarm(new Alarm());
-        Collection<EventProcessor> eventProcessors = createEventProcessors();
-        SmartHomeEventObserver smartHomeEventObserver = new SmartHomeEventObserver(smartHome, eventGenerator, eventProcessors);
+        MainHomeProcessor mainHomeProcessor = new MainHomeProcessor(createEventProcessors());
+        SmartHomeEventObserver smartHomeEventObserver = new SmartHomeEventObserver(smartHome, eventGenerator, new EventProcessorDecorator(mainHomeProcessor));
         smartHomeEventObserver.observe();
     }
 
 
     private static Collection<EventProcessor> createEventProcessors() {
         Collection<EventProcessor> eventProcessors = new ArrayList<>();
-        eventProcessors.add(new EventProcessorDecorator(new LightEventProcessor()));
-        eventProcessors.add(new EventProcessorDecorator(new DoorEventProcessor()));
-        eventProcessors.add(new EventProcessorDecorator(new HallDoorEventProcessor()));
+        eventProcessors.add(new LightEventProcessor());
+        eventProcessors.add(new DoorEventProcessor());
+        eventProcessors.add(new HallDoorEventProcessor());
         eventProcessors.add(new AlarmEventProcessor());
         return eventProcessors;
     }
