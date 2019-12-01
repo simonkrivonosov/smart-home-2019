@@ -1,20 +1,14 @@
 package ru.sbt.mipt.oop;
 
-import ru.sbt.mipt.oop.Alarm;
 
-public class AlarmState extends State {
+public abstract class AlarmState {
+    Alarm alarm;
 
-    public AlarmState(Alarm alarm) {
-        super(alarm);
-    }
-    @Override
-    public void activate(String combination) {
-
+    AlarmState(Alarm initAlarm) {
+        this.alarm = initAlarm;
     }
 
-    @Override
-    public void deactivate(String combination) {
-
-    }
-
+    public abstract void activate(String combination);
+    public abstract void deactivate(String combination);
+    public abstract void setDangerMode();
 }

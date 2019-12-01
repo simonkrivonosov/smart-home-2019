@@ -4,25 +4,26 @@ import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.*;
 
 public class CloseHallDoorCommand implements Command {
-    private SmartHome smarthome;
+    private SmartHome smartHome;
 
-    public CloseHallDoorCommand(SmartHome smarthome) {
+    public CloseHallDoorCommand(SmartHome smartHome) {
 
-        this.smarthome = smarthome;
+        this.smartHome = smartHome;
     }
 
-    public boolean execute() {
-        for(Room room: smarthome.getRooms()) {
-            if (room.getName().equals("hall")) {
-                for (Door door : room.getDoors()) {
-                    door.setOpen(false);
+    @Override
+    public void execute() {
+        smartHome.execute(object -> {
+            if (object instanceof Room) {
+                Room room = (Room) object;
+                if (room.getName().equals("Hall")) {
+                    room.execute(object_new -> {
+                                Door door = (Door) object_new;
+                                door.setOpen(false);
+                            }
+                    );
                 }
             }
-
-            for (Light light : room.getLights()) {
-                light.setOn(false);
-            }
-        }
-        return true;
+        });
     }
 }

@@ -5,20 +5,26 @@ import ru.sbt.mipt.oop.Light;
 import ru.sbt.mipt.oop.Room;
 
 public class TurnOnHallLightCommand implements Command {
-    private SmartHome smarthome;
+    private SmartHome smartHome;
 
-    public TurnOnHallLightCommand(SmartHome smarthome) {
-        this.smarthome = smarthome;
+    public TurnOnHallLightCommand(SmartHome smartHome) {
+        this.smartHome = smartHome;
     }
 
-    public boolean execute() {
-        for(Room room: smarthome.getRooms()) {
-            if(room.getName().equals("hall")) {
-                for (Light light : room.getLights()) {
-                    light.setOn(true);
+    @Override
+    public void execute() {
+        smartHome.execute(object -> {
+            if (object instanceof Room) {
+                Room room = (Room) object;
+                if (room.getName().equals("Hall")) {
+                    room.execute(object_new -> {
+                        if (object_new instanceof Light) {
+                            Light light = (Light) object_new;
+                            light.setOn(true);
+                        }
+                    });
                 }
             }
-        }
-        return true;
+        });
     }
 }

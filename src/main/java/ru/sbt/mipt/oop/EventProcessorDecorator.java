@@ -10,12 +10,12 @@ public class EventProcessorDecorator implements EventProcessor {
 
     @Override
     public void processEvent (SmartHome smartHome, SensorEvent event) {
-        if (smartHome.getAlarm().getState() instanceof ActiveState) {
+        if (smartHome.getAlarm().getAlarmState() instanceof ActiveAlarmState) {
 
-            smartHome.getAlarm().alarm();
+            smartHome.getAlarm().setDangerMode();
             System.out.println("sending sms");
 
-        } else if (smartHome.getAlarm().getState() instanceof AlarmState) {
+        } else if (smartHome.getAlarm().getAlarmState() instanceof DangerAlarmState) {
             System.out.println("sending sms");
         } else {
             eventProcessor.processEvent(smartHome, event);

@@ -2,22 +2,22 @@ package ru.sbt.mipt.oop.command;
 
 import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.Light;
-import ru.sbt.mipt.oop.Room;
 
 public class TurnOnAllLightCommand implements Command {
-    private SmartHome smarthome;
+    private SmartHome smartHome;
 
-    public TurnOnAllLightCommand(SmartHome smarthome) {
+    public TurnOnAllLightCommand(SmartHome smartHome) {
 
-        this.smarthome = smarthome;
+        this.smartHome = smartHome;
     }
 
-    public boolean execute() {
-        for(Room room: smarthome.getRooms()) {
-            for(Light light: room.getLights()) {
+    @Override
+    public void execute() {
+        smartHome.execute(object -> {
+            if (object instanceof Light) {
+                Light light = (Light) object;
                 light.setOn(true);
             }
-        }
-        return true;
+        });
     }
 }

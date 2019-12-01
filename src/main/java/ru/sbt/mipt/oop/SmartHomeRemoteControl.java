@@ -6,12 +6,10 @@ import ru.sbt.mipt.oop.command.Command;
 import java.util.HashMap;
 
 public class SmartHomeRemoteControl implements RemoteControl {
-    HashMap<String, Command> commands;
-    String rcId;
+    private final HashMap<String, Command> commands;
 
-    public SmartHomeRemoteControl(String initRcId) {
+    public SmartHomeRemoteControl() {
         commands = new HashMap<>();
-        this.rcId = initRcId;
     }
 
     public void setCommandToButton(String button, Command command) {

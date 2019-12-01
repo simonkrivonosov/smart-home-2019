@@ -1,65 +1,86 @@
 package ru.sbt.mipt.oop.configuration;
 
+import com.coolcompany.smarthome.events.SensorEventsManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import ru.sbt.mipt.oop.*;
+import ru.sbt.mipt.oop.adapter.CCSensorEventAdapters.CCSensorEventAdapter;
+import ru.sbt.mipt.oop.adapter.CCSensorEventAdapters.eventAdapters.*;
+import ru.sbt.mipt.oop.adapter.ProcessorAdapter;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 @Configuration
+@Import(RemoteControlConfiguration.class)
 public class SmartHomeConfiguration {
-    private SmartHomeReader reader;
-    private SmartHome smartHome;
-    private ProcessorsList typeRecognizer;
-    private RandomEventGenerator generator;
-    private Alarm alarm;
-
-    public SmartHomeConfiguration() {
-        SmartHomeReader reader = new JsonSmartHomeReader("smart-home-1.js");
-        smartHome = reader.loadSmartHome();
-        generator = new RandomEventGenerator();
-        typeRecognizer = new ProcessorsList(createEventProcessors());
-        alarm = new Alarm();
+    @Bean
+    public SensorEventsManager sensorEventsManager(EventProcessor eventProcessor, SmartHome smartHome, CCSensorEventAdapter eventAdapter) {
+        SensorEventsManager sensorEventsManager = new SensorEventsManager();
+        sensorEventsManager.registerEventHandler(new ProcessorAdapter(eventProcessor, smartHome, eventAdapter));
+        return sensorEventsManager;
     }
 
     @Bean
-    SmartHome getHome() {
+    public SmartHome smartHome(Alarm alarm) {
+        SmartHome smartHome = new JsonSmartHomeReader("smart-home-1.js").loadSmartHome();
+        smartHome.setAlarm(alarm);
         return smartHome;
+
+    }
+    @Bean
+    public Alarm alarm() {
+        return new Alarm();
     }
 
     @Bean
-    RandomEventGenerator getGenerator() {
-        return generator;
+    public EventProcessor eventProcessor(Collection<EventProcessor> eventProcessors) {
+        return new EventProcessorDecorator(new MainHomeProcessor(eventProcessors));
     }
 
     @Bean
-    ProcessorsList getTypeRecognizer() {
-        return typeRecognizer;
+    public EventProcessor lightEventProcessor() {
+        return new LightEventProcessor();
     }
 
     @Bean
-    Alarm getAlarm() {return alarm; }
-
-    public static class ProcessorsList {
-        private Collection<EventProcessor> processors;
-
-        public ProcessorsList(Collection<EventProcessor> processors) {
-            this.processors = processors;
-        }
-
-            public Collection<EventProcessor> getProcessorsList() {
-            return processors;
-        }
+    public EventProcessor doorEventProcessor() {
+        return new DoorEventProcessor();
     }
 
-    private static Collection<EventProcessor> createEventProcessors() {
-        Collection<EventProcessor> eventHandlers = new ArrayList<>();
-        eventHandlers.add(new EventProcessorDecorator(new LightEventProcessor()));
-        eventHandlers.add(new EventProcessorDecorator(new DoorEventProcessor()));
-        eventHandlers.add(new EventProcessorDecorator(new HallDoorEventProcessor()));
-        eventHandlers.add(new AlarmEventProcessor());
-        return eventHandlers;
+    @Bean
+    public EventProcessor hallEventProcessor() {
+        return new HallDoorEventProcessor();
+    }
+
+    @Bean
+    public EventProcessor alarmEventProcessor() {
+        return new AlarmEventProcessor();
+    }
+
+    @Bean
+    public CCSensorEventAdapter eventAdapter(LightIsOffAdapter lightIsOffAdapter) {
+        return new LightIsOnAdapter(lightIsOffAdapter);
+    }
+
+    @Bean
+    public LightIsOffAdapter lightIsOffAdapter(DoorIsOpenAdapter doorIsOpenAdapter) {
+        return new LightIsOffAdapter(doorIsOpenAdapter);
+    }
+
+    @Bean
+    public DoorIsOpenAdapter doorIsOpenAdapter(DoorIsClosedAdapter doorIsClosedAdapter) {
+        return new DoorIsOpenAdapter(doorIsClosedAdapter);
+    }
+
+    @Bean
+    public DoorIsClosedAdapter doorIsClosedAdapter(NullAdapter nullAdapter){
+        return new DoorIsClosedAdapter(nullAdapter);
+    }
+
+    @Bean
+    public NullAdapter nullAdapter() {
+        return new NullAdapter();
     }
 }
 
