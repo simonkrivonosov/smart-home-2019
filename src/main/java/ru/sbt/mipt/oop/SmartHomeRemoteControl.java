@@ -1,12 +1,15 @@
 package ru.sbt.mipt.oop;
 
+import org.springframework.stereotype.Component;
 import rc.RemoteControl;
 import ru.sbt.mipt.oop.command.Command;
 
 import java.util.HashMap;
+import java.util.Map;
 
+@Component("myRemoteControl")
 public class SmartHomeRemoteControl implements RemoteControl {
-    private final HashMap<String, Command> commands;
+    private final Map<String, Command> commands;
 
     public SmartHomeRemoteControl() {
         commands = new HashMap<>();

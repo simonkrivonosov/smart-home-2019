@@ -4,9 +4,10 @@ import com.coolcompany.smarthome.events.SensorEventsManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import ru.sbt.mipt.oop.*;
-import ru.sbt.mipt.oop.adapter.CCSensorEventAdapters.CCSensorEventAdapter;
-import ru.sbt.mipt.oop.adapter.CCSensorEventAdapters.eventAdapters.*;
+import ru.sbt.mipt.oop.adapter.CCSensorEventConverters.CCSensorEventConverter;
+import ru.sbt.mipt.oop.adapter.CCSensorEventConverters.eventConverters.*;
 import ru.sbt.mipt.oop.adapter.ProcessorAdapter;
 
 import java.util.Collection;
@@ -15,7 +16,7 @@ import java.util.Collection;
 @Import(RemoteControlConfiguration.class)
 public class SmartHomeConfiguration {
     @Bean
-    public SensorEventsManager sensorEventsManager(EventProcessor eventProcessor, SmartHome smartHome, CCSensorEventAdapter eventAdapter) {
+    public SensorEventsManager sensorEventsManager(EventProcessor eventProcessor, SmartHome smartHome, CCSensorEventConverter eventAdapter) {
         SensorEventsManager sensorEventsManager = new SensorEventsManager();
         sensorEventsManager.registerEventHandler(new ProcessorAdapter(eventProcessor, smartHome, eventAdapter));
         return sensorEventsManager;
@@ -34,6 +35,7 @@ public class SmartHomeConfiguration {
     }
 
     @Bean
+    @Primary
     public EventProcessor eventProcessor(Collection<EventProcessor> eventProcessors) {
         return new EventProcessorDecorator(new MainHomeProcessor(eventProcessors));
     }
@@ -59,28 +61,28 @@ public class SmartHomeConfiguration {
     }
 
     @Bean
-    public CCSensorEventAdapter eventAdapter(LightIsOffAdapter lightIsOffAdapter) {
-        return new LightIsOnAdapter(lightIsOffAdapter);
+    public CCSensorEventConverter eventAdapter(LightIsOffConverter lightIsOffAdapter) {
+        return new LightIsOnConverter(lightIsOffAdapter);
     }
 
     @Bean
-    public LightIsOffAdapter lightIsOffAdapter(DoorIsOpenAdapter doorIsOpenAdapter) {
-        return new LightIsOffAdapter(doorIsOpenAdapter);
+    public LightIsOffConverter lightIsOffAdapter(DoorIsOpenConverter doorIsOpenAdapter) {
+        return new LightIsOffConverter(doorIsOpenAdapter);
     }
 
     @Bean
-    public DoorIsOpenAdapter doorIsOpenAdapter(DoorIsClosedAdapter doorIsClosedAdapter) {
-        return new DoorIsOpenAdapter(doorIsClosedAdapter);
+    public DoorIsOpenConverter doorIsOpenAdapter(DoorIsClosedConverter doorIsClosedAdapter) {
+        return new DoorIsOpenConverter(doorIsClosedAdapter);
     }
 
     @Bean
-    public DoorIsClosedAdapter doorIsClosedAdapter(NullAdapter nullAdapter){
-        return new DoorIsClosedAdapter(nullAdapter);
+    public DoorIsClosedConverter doorIsClosedAdapter(NullConverter nullAdapter){
+        return new DoorIsClosedConverter(nullAdapter);
     }
 
     @Bean
-    public NullAdapter nullAdapter() {
-        return new NullAdapter();
+    public NullConverter nullAdapter() {
+        return new NullConverter();
     }
 }
 

@@ -1,6 +1,8 @@
 package ru.sbt.mipt.oop.configuration;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import rc.RemoteControl;
 import rc.RemoteControlRegistry;
@@ -9,10 +11,12 @@ import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.SmartHomeRemoteControl;
 import ru.sbt.mipt.oop.command.*;
 
+@ComponentScan
 @Configuration
 public class RemoteControlConfiguration {
 
     @Bean
+    @Qualifier("myRemoteControl")
     RemoteControl remoteControlImplementation(Command turnOnAllLightCommand,
                                               Command turnOffAllLightCommand,
                                               Command activateAlarmCommand,
