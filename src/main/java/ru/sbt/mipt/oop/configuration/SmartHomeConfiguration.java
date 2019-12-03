@@ -1,6 +1,7 @@
 package ru.sbt.mipt.oop.configuration;
 
 import com.coolcompany.smarthome.events.SensorEventsManager;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -41,21 +42,25 @@ public class SmartHomeConfiguration {
     }
 
     @Bean
+    @Qualifier("lightEventProcessor")
     public EventProcessor lightEventProcessor() {
         return new LightEventProcessor();
     }
 
     @Bean
+    @Qualifier("doorEventProcessor")
     public EventProcessor doorEventProcessor() {
         return new DoorEventProcessor();
     }
 
     @Bean
+    @Qualifier("hallEventProcessor")
     public EventProcessor hallEventProcessor() {
         return new HallDoorEventProcessor();
     }
 
     @Bean
+    @Qualifier("alarmEventProcessor")
     public EventProcessor alarmEventProcessor() {
         return new AlarmEventProcessor();
     }

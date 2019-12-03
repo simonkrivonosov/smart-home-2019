@@ -7,7 +7,6 @@ import ru.sbt.mipt.oop.command.Command;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component("myRemoteControl")
 public class SmartHomeRemoteControl implements RemoteControl {
     private final Map<String, Command> commands;
 
