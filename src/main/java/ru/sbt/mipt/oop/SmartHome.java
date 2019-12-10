@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class SmartHome {
-    Collection<Room> rooms;
-    Alarm alarm;
+    private Collection<Room> rooms;
+    private Alarm alarm;
 
     public SmartHome() {
         rooms = new ArrayList<>();

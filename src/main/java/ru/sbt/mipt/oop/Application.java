@@ -11,7 +11,7 @@ public class Application {
         CommandSender commandSender = new TextCommandSender();
         SmartHome smartHome = smartHomeReader.loadSmartHome();
         smartHome.setAlarm(new Alarm());
-        MainHomeProcessor mainHomeProcessor = new MainHomeProcessor(createEventProcessors());
+        EventProcessor mainHomeProcessor = new MainHomeProcessor(createEventProcessors());
         SmartHomeEventObserver smartHomeEventObserver = new SmartHomeEventObserver(smartHome, eventGenerator, new EventProcessorDecorator(mainHomeProcessor));
         smartHomeEventObserver.observe();
     }

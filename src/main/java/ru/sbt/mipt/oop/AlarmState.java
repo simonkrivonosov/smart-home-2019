@@ -1,6 +1,5 @@
 package ru.sbt.mipt.oop;
 
-import ru.sbt.mipt.oop.Alarm;
 
 public abstract class AlarmState {
     Alarm alarm;
