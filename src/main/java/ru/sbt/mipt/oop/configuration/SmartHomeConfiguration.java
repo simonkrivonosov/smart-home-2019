@@ -42,25 +42,25 @@ public class SmartHomeConfiguration {
     }
 
     @Bean
-    @Qualifier("lightEventProcessor")
+    //@Qualifier("lightEventProcessor")
     public EventProcessor lightEventProcessor() {
         return new LightEventProcessor();
     }
 
     @Bean
-    @Qualifier("doorEventProcessor")
+    //@Qualifier("doorEventProcessor")
     public EventProcessor doorEventProcessor() {
         return new DoorEventProcessor();
     }
 
     @Bean
-    @Qualifier("hallEventProcessor")
+    //@Qualifier("hallEventProcessor")
     public EventProcessor hallEventProcessor() {
         return new HallDoorEventProcessor();
     }
 
     @Bean
-    @Qualifier("alarmEventProcessor")
+    //@Qualifier("alarmEventProcessor")
     public EventProcessor alarmEventProcessor() {
         return new AlarmEventProcessor();
     }

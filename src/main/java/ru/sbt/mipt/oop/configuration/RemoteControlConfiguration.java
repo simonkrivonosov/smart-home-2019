@@ -15,12 +15,12 @@ public class RemoteControlConfiguration {
 
     @Bean
     @Qualifier("remoteControlImplementation1")
-    RemoteControl remoteControlImplementation(Command turnOnAllLightCommand,
-                                              Command turnOffAllLightCommand,
-                                              Command activateAlarmCommand,
-                                              Command turnOnHallLightCommand,
-                                              Command setDangerModeCommand,
-                                              Command closeHallDoorCommand,
+    RemoteControl remoteControlImplementation(@Qualifier("turnOnAllLightCommand") Command turnOnAllLightCommand,
+                                              @Qualifier("turnOffAllLightCommand") Command turnOffAllLightCommand,
+                                              @Qualifier("activateAlarmCommand") Command activateAlarmCommand,
+                                              @Qualifier("turnOnHallLightCommand") Command turnOnHallLightCommand,
+                                              @Qualifier("setDangerModeCommand") Command setDangerModeCommand,
+                                              @Qualifier("closeHallDoorCommand") Command closeHallDoorCommand,
                                               RemoteControlRegistry remoteControlRegistry) {
         SmartHomeRemoteControl remoteControl = new SmartHomeRemoteControl();
         remoteControl.setCommandToButton("A", turnOnAllLightCommand);
@@ -39,37 +39,37 @@ public class RemoteControlConfiguration {
     }
 
     @Bean
-    @Qualifier("turnOnAllLightCommand")
+    //@Qualifier("turnOnAllLightCommand")
     Command turnOnAllLightCommand(SmartHome smartHome) {
         return new TurnOnAllLightCommand(smartHome);
     }
 
     @Bean
-    @Qualifier("turnOffAllLightCommand")
+    //@Qualifier("turnOffAllLightCommand")
     Command turnOffAllLightCommand(SmartHome smartHome) {
         return new TurnOffAllLightCommand(smartHome);
     }
 
     @Bean
-    @Qualifier("activateAlarmCommand")
+    //@Qualifier("activateAlarmCommand")
     Command activateAlarmCommand(Alarm alarm) {
         return new ActivateAlarmCommand(alarm, "123");
     }
 
     @Bean
-    @Qualifier("turnOnHallLightCommand")
+    //@Qualifier("turnOnHallLightCommand")
     Command turnOnHallLightCommand(SmartHome smartHome) {
         return new TurnOnHallLightCommand(smartHome);
     }
 
     @Bean
-    @Qualifier("setDangerModeCommand")
+    //@Qualifier("setDangerModeCommand")
     Command setDangerModeCommand(Alarm alarm) {
         return new SetDangerModeCommand(alarm);
     }
 
     @Bean
-    @Qualifier("closeHallDoorCommand")
+    //@Qualifier("closeHallDoorCommand")
     Command closeHallDoorCommand(SmartHome smartHome) {
         return new CloseHallDoorCommand(smartHome);
     }
